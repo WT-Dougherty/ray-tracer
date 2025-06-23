@@ -26,9 +26,6 @@ struct vec3 {
     double len() const {
         return std::sqrt( len_squared() );
     }
-    vec3 UnitVector() const {
-        return *this / len();
-    }
     
     // operations between vectors
     vec3 operator+(vec3 const& vec) const {
@@ -41,6 +38,7 @@ struct vec3 {
                     val[1] - vec.val[1],
                     val[2] - vec.val[2] );
     }
+    // dot product
     double operator*(vec3 const& vec) const {
         return (val[0] * vec.val[0] +
                 val[1] * vec.val[1] +
@@ -55,7 +53,9 @@ struct vec3 {
                       val[2] * t );
     }
     vec3 operator/(double t) const {
-        return this->operator*(1.0/t);
+        return vec3 ( val[0] / t,
+                      val[1] / t,
+                      val[2] / t );
     }
 
     // mutating operations on vector
@@ -72,13 +72,21 @@ struct vec3 {
         val[2] *= t;
         return *this;
     }
-    vec3& operator/=(double t) { return *this *= 1/t; }
-    vec3& operator-() { return *this *= -1; }
+    vec3& operator/=(double t) { return this->operator*=(1/t); }
+    vec3& operator-() { return this->operator*=(-1); }
 };
 
 // non-mutating non-member functions
-vec3 operator*(double t, const vec3 v) {
-    return vec3( t*v.X(), t*v.Y(), t*v.Z() );
+inline vec3 UnitVector(const vec3& v) {
+    return v / v.len();
+}
+inline vec3 operator*(double t, const vec3 v) {
+    return v * t;
+}
+inline vec3 cross(const vec3& u, const vec3& v) {
+    return vec3(u.val[1] * v.val[2] - u.val[2] * v.val[1],
+                u.val[2] * v.val[0] - u.val[0] * v.val[2],
+                u.val[0] * v.val[1] - u.val[1] * v.val[0]);
 }
 
 using point3 = vec3;

@@ -3,20 +3,28 @@
 #include "ray.h"
 #include <iostream>
 
-bool hit_sphere(const point3& center, double radius, const ray& r) {
-    vec3 cc = center - r.Origin();
+double hit_sphere(const point3& center, double radius, const ray& r) {
+    vec3 cmo = center - r.Origin();
     auto a = r.Direction() * r.Direction();
-    auto b = -2.0 * r.Direction() * cc;
-    auto c = cc * cc - radius*radius;
-    auto discriminant = b*b - 4*a*c;
-    return (discriminant >= 0);
+    auto h = r.Direction()*cmo;
+    auto c = (cmo*cmo) - (radius*radius);
+    auto discriminant = h*h - a*c;
+    if (discriminant < 0) {
+        return -1.0;
+    } else {
+        auto t = (h - std::sqrt(discriminant) ) / a;
+        return t;
+    }
 }
 
 color ray_color(const ray& r) {
-    if (hit_sphere(point3(0,0,-1), 0.5, r))
-        return color(1, 0, 0);
+    double t = hit_sphere( point3(0, 0, -1), 0.5, r );
+    if (t > 0) {
+        vec3 N = UnitVector( (r.At(t) - vec3(0, 0, -1)) );
+        return 0.5*color(N.X()+1, N.Y()+1, N.Z()+1);
+    }
 
-    vec3 unit_dir = r.Direction().UnitVector();
+    vec3 unit_dir = UnitVector( r.Direction() );
     auto a = 0.5 * (unit_dir.Y() + 1.0);
     return (1.0-a)*color(1.0, 1.0, 1.0)
                + a*color(0.5, 0.7, 1.0);
@@ -52,7 +60,6 @@ int main()
                                                - viewport_v/2;
     point3 pixel_i = viewport_upper_left + 0.5 * (pixel_height + pixel_width);
 
-
     // render image
     std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
 
@@ -61,7 +68,7 @@ int main()
         for (int i = 0; i < image_width; i++) {
             point3 pixel_pos = pixel_i + pixel_width*i + pixel_height*j;
             vec3 dir = pixel_pos - camera_center;
-            ray r(pixel_pos, dir);
+            ray r(camera_center, dir);
 
             color pixel_color = ray_color(r);
             write_color(std::cout, pixel_color);
