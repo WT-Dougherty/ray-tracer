@@ -2,12 +2,11 @@
 #define COLOR_H
 
 #include "vec3.h"
-
 #include <iostream>
 
 using color = vec3;
 
-void write_color(std::ostream& out, const color& pixel_color) {
+inline void write_color(std::ostream& out, const color& pixel_color) {
     auto r = pixel_color.X();
     auto g = pixel_color.Y();
     auto b = pixel_color.Z();
