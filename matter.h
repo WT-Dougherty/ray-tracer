@@ -1,12 +1,14 @@
 #ifndef MATTER_H
 #define MATTER_H
 
-#include "ray.h"
+#include "primaryheader.h"
+class material;
 
 struct hit_record {
     point3 hit_point;
     vec3 normal;
     double t;
+    std::shared_ptr<material> mat;
 };
 
 class matter {

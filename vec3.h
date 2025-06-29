@@ -32,6 +32,16 @@ struct vec3 {
     double len() const {
         return std::sqrt( len_squared() );
     }
+    bool Zero() const {
+        double small = 1e-8;
+        if (std::fabs(val[0]) < small && std::fabs(val[1]) < small && std::fabs(val[2]) < small) {
+            return true;
+        }
+        return false;
+    }
+    vec3 Scale(vec3& v) const {
+        return vec3(val[0] * v.X(), val[1] * v.Y(), val[2] * v.Z());
+    }
     
     // operations between vectors
     vec3 operator+(vec3 const& vec) const {
@@ -109,6 +119,9 @@ inline vec3 random_unit_vector() {
 inline bool SameDir(vec3 vector1, vec3 vector2) {
     if ( vector1 * vector2 > 0 ) { return true; }
     return false;
+}
+inline vec3 reflect(const vec3& v, const vec3& n) {
+    return v - ( 2 * (v * n) * n );
 }
 
 using point3 = vec3;

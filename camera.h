@@ -14,6 +14,7 @@ private:
     
     // set variables
     double image_height;
+    double brightness = 0.5;
     point3 camera_center;
     vec3 pixel_width;
     vec3 pixel_height;

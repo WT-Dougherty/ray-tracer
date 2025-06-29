@@ -1,4 +1,5 @@
 #include "camera.h"
+#include "material.h"
 
 void Camera :: Initialize(double ar, double iw)
 {
@@ -35,9 +36,12 @@ color Camera :: Ray_Color(const ray& r, const environment& envmt, int depth) {
     hit_record rec;
     if ( envmt.hit(r, 0.001, infinity, rec) )
     {
-        vec3 dir = random_unit_vector();
-        if ( !SameDir(dir, rec.normal) ) { dir *= -1; }
-        return 0.5 * Ray_Color( ray(rec.hit_point, dir), envmt, depth+1 );
+        ray scattered;
+        color attenuation;
+        if ( rec.mat->scatter(r, rec, attenuation, scattered) ) {
+            return Ray_Color(scattered, envmt, depth+1).Scale(attenuation);
+        }
+        return color(0,0,0);
     }
 
     vec3 unit_dir = UnitVector( r.Direction() );

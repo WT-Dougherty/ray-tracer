@@ -22,5 +22,6 @@ bool sphere :: hit(const ray& r, double ray_tmin, double ray_tmax, hit_record& r
     rec.hit_point = r.At(t);
     rec.normal = ( r.At(t) - center ) / radius;
     rec.t = t;
+    rec.mat = mat;
     return true;
 }
