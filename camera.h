@@ -10,6 +10,7 @@ private:
     // variables set by user
     double aspect_ratio;
     double image_width;
+    int samples_per_pixel = 100;
     
     // set variables
     double image_height;
@@ -20,7 +21,9 @@ private:
 
     // functions used during rendering
     void Initialize(double ar, double iw);
-    color Ray_Color(const ray& r, const environment& envmt);
+    color Ray_Color(const ray& r, const environment& envmt, int depth);
+    vec3 OffsetVec();
+    ray GetRay(int x, int y);
 public:
     Camera() {}
     // camera handles rendering

@@ -4,6 +4,12 @@
 #include <iostream>
 #include <cmath>
 
+// utility function
+// returns random double in range [0,1)
+inline double random_double(double min=0, double max=1) {
+    return min + (max-min) * std::rand() / ( RAND_MAX + 1.0 );
+}
+
 // consider that some functions may need to be changed to
 // references/ values depending on use cases
 
@@ -74,6 +80,10 @@ struct vec3 {
     }
     vec3& operator/=(double t) { return this->operator*=(1/t); }
     vec3& operator-() { return this->operator*=(-1); }
+
+    static vec3 random(double min, double max) {
+        return vec3( random_double(min, max), random_double(min, max), random_double(min, max) );
+    }
 };
 
 // non-mutating non-member functions
@@ -87,6 +97,18 @@ inline vec3 cross(const vec3& u, const vec3& v) {
     return vec3(u.val[1] * v.val[2] - u.val[2] * v.val[1],
                 u.val[2] * v.val[0] - u.val[0] * v.val[2],
                 u.val[0] * v.val[1] - u.val[1] * v.val[0]);
+}
+inline vec3 random_unit_vector() {
+    while (true) {
+        vec3 p = vec3::random(-1,1);
+        double lensq = p.len_squared();
+        if (1e-160 < lensq && lensq <= 1)
+            return p / sqrt(lensq);
+    }
+}
+inline bool SameDir(vec3 vector1, vec3 vector2) {
+    if ( vector1 * vector2 > 0 ) { return true; }
+    return false;
 }
 
 using point3 = vec3;
