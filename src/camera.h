@@ -2,8 +2,8 @@
 #define CAMERA_H
 
 #include "primaryheader.h"
-#include "Environment.h"
-#include "Matter.h"
+#include "environment.h"
+#include "matter.h"
 
 class Camera
 {

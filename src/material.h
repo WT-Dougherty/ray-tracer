@@ -1,7 +1,7 @@
 #ifndef MATERIAL_H
 #define MATERIAL_H
 
-#include "Matter.h"
+#include "matter.h"
 #include "primaryheader.h"
 
 class Material
