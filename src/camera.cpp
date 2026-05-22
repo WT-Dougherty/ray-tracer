@@ -1,5 +1,5 @@
-#include "Camera.h"
-#include "Material.h"
+#include "camera.h"
+#include "material.h"
 
 void Camera ::initialize(double ar, double iw)
 {
