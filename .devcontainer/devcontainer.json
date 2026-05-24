@@ -4,7 +4,9 @@
   "name": "C++",
   "build": {
     "dockerfile": "Dockerfile"
-  }
+  },
+
+  "runArgs": ["--cpus=8"]  // limit to 4 cores, for example
 
   // Features to add to the dev container. More info: https://containers.dev/features.
   // "features": {},
