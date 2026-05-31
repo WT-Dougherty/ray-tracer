@@ -1,8 +1,8 @@
 #ifndef SPHERE_H
 #define SPHERE_H
 
-#include "Matter.h"
-#include "Vec3.h"
+#include "matter.h"
+#include "vec3.h"
 
 class Sphere : public Matter
 {

@@ -1,4 +1,4 @@
-#include "Sphere.h"
+#include "sphere.h"
 #include "math.h"
 
 bool Sphere ::hit(const Ray &r, double rayTmin, double rayTmax, HitRecord &rec) const

@@ -10,9 +10,9 @@
 #include <vector>
 
 // headers
-#include "Color.h"
-#include "Ray.h"
-#include "Vec3.h"
+#include "color.h"
+#include "ray.h"
+#include "vec3.h"
 
 // constants
 const double infinity = std::numeric_limits<double>::infinity();

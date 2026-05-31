@@ -1,5 +1,5 @@
-#include "Camera.h"
-#include "Material.h"
+#include "camera.h"
+#include "material.h"
 
 void Camera ::initialize(double ar, double iw)
 {
@@ -55,8 +55,8 @@ Vec3 Camera ::offsetVec()
 }
 Ray Camera ::getRay(int x, int y)
 {
-    Vec3 os = offsetVec();
-    auto pixelSample = pixelI + ((x + os.x()) * pixelWidth) + ((y + os.y()) * pixelHeight);
+    Vec3 ofst = offsetVec();
+    auto pixelSample = pixelI + ((x + ofst.x()) * pixelWidth) + ((y + ofst.y()) * pixelHeight);
     Point3 rayOrigin = cameraCenter;
     Vec3 rayDirection = pixelSample - rayOrigin;
 

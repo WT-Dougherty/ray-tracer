@@ -1,7 +1,7 @@
 #ifndef ENVIRONMENT_H
 #define ENVIRONMENT_H
 
-#include "Matter.h"
+#include "matter.h"
 #include "primaryheader.h"
 
 class Environment : public Matter

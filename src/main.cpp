@@ -1,15 +1,15 @@
 #include "primaryheader.h"
 
-#include "Environment.h"
-#include "Sphere.h"
-#include "Camera.h"
-#include "Material.h"
+#include "environment.h"
+#include "sphere.h"
+#include "camera.h"
+#include "material.h"
 
 int main()
 {
     // parameters for viewport
     auto aspectRatio = 16.0 / 9.0;
-    int imageWidth = 4000;
+    int imageWidth = 400;
 
     // generate spheres
     auto materialGround = std::make_shared<Lambertian>(Color(0.8, 0.8, 0.0));
