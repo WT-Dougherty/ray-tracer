@@ -28,7 +28,7 @@ void Camera ::initialize()
 
 Color Camera ::rayColor(const Ray &r, const Environment &envmt, int depth)
 {
-    if (depth >= 50)
+    if (depth >= Constants::MAX_RECURSION_DEPTH)
         return Color(0, 0, 0);
     HitRecord rec;
     if (envmt.hit(r, 0.001, infinity, rec))
