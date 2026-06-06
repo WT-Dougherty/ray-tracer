@@ -7,6 +7,7 @@ public:
     // ------------------- image parameters -------------------
     constexpr static const double ASPECT_RATIO = 16.0 / 9.0;
     constexpr static const int IMAGE_WIDTH = 400;
+    constexpr static const int SAMPLES_PER_PIXEL = 100;
 
     // ------------------- viewport parameters -------------------
     constexpr static const double VIEWPORT_HEIGHT = 2.0;

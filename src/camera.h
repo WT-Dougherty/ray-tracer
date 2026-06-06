@@ -8,11 +8,6 @@
 class Camera
 {
 private:
-    // variables set by user
-    double aspectRatio;
-    double imageWidth;
-    int samplesPerPixel = 100;
-
     // set variables
     double imageHeight;
     double brightness = 0.5;

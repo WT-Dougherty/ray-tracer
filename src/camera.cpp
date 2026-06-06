@@ -73,12 +73,12 @@ void Camera ::render(const Environment &envmt)
         for (int i = 0; i < Constants::IMAGE_WIDTH; i++)
         {
             Color pixelColor = Color(0, 0, 0);
-            for (int _ = 0; _ < samplesPerPixel; _++)
+            for (int _ = 0; _ < Constants::SAMPLES_PER_PIXEL; _++)
             {
                 Ray r = getRay(i, j);
                 pixelColor += rayColor(r, envmt, 0);
             }
-            writeColor(std::cout, pixelColor / samplesPerPixel);
+            writeColor(std::cout, pixelColor / Constants::SAMPLES_PER_PIXEL);
         }
     }
     std::clog << "\rDone.                 \n";
