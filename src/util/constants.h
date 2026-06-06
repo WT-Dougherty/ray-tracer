@@ -14,7 +14,7 @@ public:
     constexpr static const double FOCAL_LENGTH = 1.0;
 
     // ------------------- operational parameters ----------------
-    constexpr static const int MAX_RECURSION_DEPTH = 50;
+    constexpr static const int MAX_RECURSION_DEPTH = 10;
 };
 
 #endif // CONSTANTS_H
