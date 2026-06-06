@@ -6,7 +6,7 @@
     "dockerfile": "Dockerfile"
   },
 
-  "runArgs": ["--cpus=8"]  // limit to 4 cores, for example
+  "runArgs": ["--cpus=8"]
 
   // Features to add to the dev container. More info: https://containers.dev/features.
   // "features": {},

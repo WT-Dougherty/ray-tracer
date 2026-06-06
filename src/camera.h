@@ -22,7 +22,7 @@ private:
     Point3 pixelI;
 
     // functions used during rendering
-    void initialize(double ar, double iw);
+    void initialize();
     Color rayColor(const Ray &r, const Environment &envmt, int depth);
     Vec3 offsetVec();
     Ray getRay(int x, int y);
@@ -30,7 +30,7 @@ private:
 public:
     Camera() {}
     // camera handles rendering
-    void render(double aspectRatio, double imageWidth, const Environment &envmt);
+    void render(const Environment &envmt);
 };
 
 #endif /* camera.h */

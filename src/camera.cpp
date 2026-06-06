@@ -1,31 +1,28 @@
 #include "camera.h"
 #include "material.h"
 
-void Camera ::initialize(double ar, double iw)
-{
-    aspectRatio = ar;
-    imageWidth = iw;
+#include "util/constants.h"
 
+void Camera ::initialize()
+{
     // calculation of image height
-    imageHeight = int(imageWidth / aspectRatio);
+    imageHeight = int(Constants::IMAGE_WIDTH / Constants::ASPECT_RATIO);
     imageHeight = (imageHeight > 1) ? imageHeight : 1;
 
     // viewport dimensions
-    double viewportHeight = 2.0;
-    double viewportWidth = viewportHeight * (double(imageWidth) / imageHeight);
-    auto focalLength = 1.0;
+    double viewportWidth = Constants::VIEWPORT_HEIGHT * (double(Constants::IMAGE_WIDTH) / imageHeight);
     cameraCenter = Point3(0, 0, 0);
 
     // calculate vectors across horizontal and down vertical edges
     Vec3 viewportU = Vec3(viewportWidth, 0, 0);
-    Vec3 viewportV = Vec3(0, -viewportHeight, 0);
+    Vec3 viewportV = Vec3(0, -Constants::VIEWPORT_HEIGHT, 0);
 
     // pixel dimension (should be ~same)
-    pixelWidth = viewportU / double(imageWidth);
+    pixelWidth = viewportU / double(Constants::IMAGE_WIDTH);
     pixelHeight = viewportV / double(imageHeight);
 
     // calculate initial pixel (upper left)
-    Point3 viewportUpperLeft = cameraCenter - Vec3(0, 0, focalLength) - viewportU / 2 - viewportV / 2;
+    Point3 viewportUpperLeft = cameraCenter - Vec3(0, 0, Constants::FOCAL_LENGTH) - viewportU / 2 - viewportV / 2;
     pixelI = viewportUpperLeft + 0.5 * (pixelHeight + pixelWidth);
 }
 
@@ -63,17 +60,17 @@ Ray Camera ::getRay(int x, int y)
     return Ray(rayOrigin, rayDirection);
 }
 
-void Camera ::render(double ar, double iw, const Environment &envmt)
+void Camera ::render(const Environment &envmt)
 {
-    initialize(ar, iw);
+    initialize();
 
     std::cout << "P3\n"
-              << imageWidth << ' ' << imageHeight << "\n255\n";
+              << Constants::IMAGE_WIDTH << ' ' << imageHeight << "\n255\n";
 
     for (int j = 0; j < imageHeight; j++)
     {
         std::clog << "\rScanlines remaining: " << (imageHeight - j) << ' ' << std::flush;
-        for (int i = 0; i < imageWidth; i++)
+        for (int i = 0; i < Constants::IMAGE_WIDTH; i++)
         {
             Color pixelColor = Color(0, 0, 0);
             for (int _ = 0; _ < samplesPerPixel; _++)
