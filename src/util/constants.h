@@ -6,7 +6,7 @@ class Constants
 public:
     // ------------------- image parameters ----------------------
     constexpr static const double ASPECT_RATIO = 16.0 / 9.0;
-    constexpr static const int IMAGE_WIDTH = 400;
+    constexpr static const int IMAGE_WIDTH = 16000;
     constexpr static const int SAMPLES_PER_PIXEL = 100;
 
     // ------------------- viewport parameters -------------------
@@ -15,7 +15,7 @@ public:
 
     // ------------------- operational parameters ----------------
     constexpr static const int MAX_RECURSION_DEPTH = 50;
-    constexpr static const int THREAD_BATCH_SIZE = 32;
+    constexpr static const int THREAD_BATCH_SIZE = 4;
 };
 
 #endif /* CONSTANTS_H */

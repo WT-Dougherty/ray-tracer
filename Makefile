@@ -8,16 +8,16 @@ clean:
 
 build: build/raytracer
 
-build/raytracer: src/*.cpp src/*.h
+build/raytracer: src/*.cpp src/*.h src/util/*.h
 	@mkdir -p build
-	g++ src/*.cpp -I src -o build/raytracer
+	g++ src/*.cpp -I src -O3 -march=native -std=c++17 -o build/raytracer
 
 test: build/tests
 	./build/tests
 
 build/tests: test/*.cpp $(TEST_DEPS)
 	@mkdir -p build
-	g++ test/*.cpp $(TEST_DEPS) -I src -o build/tests
+	g++ test/*.cpp $(TEST_DEPS) -I src -std=c++17 -o build/tests
 
 run : build
 	@rm -rf out

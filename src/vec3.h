@@ -47,7 +47,7 @@ struct Vec3
         }
         return false;
     }
-    Vec3 scale(Vec3 &v) const
+    Vec3 scale(const Vec3 &v) const
     {
         return Vec3(val[0] * v.x(), val[1] * v.y(), val[2] * v.z());
     }

@@ -18,7 +18,7 @@ private:
 
     // functions used during rendering
     void initialize();
-    Color rayColor(const Ray &r, const Environment &envmt, int depth);
+    Color rayColor(const Ray &r, const Environment &envmt);
     Vec3 offsetVec();
     Ray getRay(int x, int y);
 
