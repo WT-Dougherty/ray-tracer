@@ -3,6 +3,7 @@
 
 # VSCode settings & workspace files
 .vscode/
+settings.local.json
 
 # Build Output
 build/

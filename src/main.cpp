@@ -1,4 +1,5 @@
 #include "primaryheader.h"
+#include "util/constants.h"
 
 #include "environment.h"
 #include "sphere.h"
@@ -7,10 +8,6 @@
 
 int main()
 {
-    // parameters for viewport
-    auto aspectRatio = 16.0 / 9.0;
-    int imageWidth = 400;
-
     // generate spheres
     auto materialGround = std::make_shared<Lambertian>(Color(0.8, 0.8, 0.0));
     auto materialShinyMetal = std::make_shared<Metal>(Color(0.8, 0.8, 0.8));  // shiny metal
@@ -42,7 +39,7 @@ int main()
     // envmt.add( s6 );
 
     Camera cam = Camera();
-    cam.render(aspectRatio, imageWidth, envmt);
+    cam.render(envmt);
 
     // memory cleanup
     delete s1;

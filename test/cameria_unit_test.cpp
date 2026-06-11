@@ -2,6 +2,7 @@
 #include <sstream>
 #include "camera.h"
 #include "environment.h"
+#include "util/constants.h"
 
 // ---------------------------------------------- tests ----------------------------------------------
 BOOST_AUTO_TEST_SUITE(CameraUnitTests)
@@ -21,7 +22,7 @@ BOOST_AUTO_TEST_CASE(CameraRenderPPMHeaderTest)
 
     Camera cam;
     Environment env;
-    cam.render(1.0, 4, env);
+    cam.render(env);
 
     std::cout.rdbuf(oldCout);
 
@@ -38,7 +39,7 @@ BOOST_AUTO_TEST_CASE(CameraRenderDimensionsTest)
 
     Camera cam;
     Environment env;
-    cam.render(1.0, 4, env);
+    cam.render(env);
 
     std::cout.rdbuf(oldCout);
 
@@ -46,7 +47,9 @@ BOOST_AUTO_TEST_CASE(CameraRenderDimensionsTest)
     // PPM header line 2: "<width> <height>"
     std::size_t firstNewline = output.find('\n');
     std::string headerLine = output.substr(firstNewline + 1, output.find('\n', firstNewline + 1) - firstNewline - 1);
-    BOOST_CHECK_EQUAL(headerLine, "4 4");
+    std::ostringstream expected;
+    expected << Constants::IMAGE_WIDTH << ' ' << int(Constants::IMAGE_WIDTH / Constants::ASPECT_RATIO);
+    BOOST_CHECK_EQUAL(headerLine, expected.str());
 }
 
 BOOST_AUTO_TEST_SUITE_END()

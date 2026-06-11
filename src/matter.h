@@ -9,7 +9,7 @@ struct HitRecord
   Point3 hitPoint;
   Vec3 normal;
   double t;
-  std::shared_ptr<Material> mat;
+  const Material *mat;
 };
 
 class Matter

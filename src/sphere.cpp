@@ -29,6 +29,6 @@ bool Sphere ::hit(const Ray &r, double rayTmin, double rayTmax, HitRecord &rec) 
     rec.hitPoint = r.at(t);
     rec.normal = (r.at(t) - center) / radius;
     rec.t = t;
-    rec.mat = mat;
+    rec.mat = mat.get();
     return true;
 }

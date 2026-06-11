@@ -3,17 +3,19 @@
 
 #include <iostream>
 #include <cmath>
+#include <random>
 
 // utility function
-// returns random double in range [0,1)
+// returns random double in range [min,max)
 inline double randomDouble(double min = 0, double max = 1)
 {
-    return min + (max - min) * std::rand() / (RAND_MAX + 1.0);
+    static thread_local unsigned int seed = std::random_device{}();
+    seed = seed * 1664525u + 1013904223u;
+    return min + (max - min) * (seed / 4294967295.0);
 }
 
 // consider that some functions may need to be changed to
 // references/ values depending on use cases
-
 struct Vec3
 {
 
@@ -45,7 +47,7 @@ struct Vec3
         }
         return false;
     }
-    Vec3 scale(Vec3 &v) const
+    Vec3 scale(const Vec3 &v) const
     {
         return Vec3(val[0] * v.x(), val[1] * v.y(), val[2] * v.z());
     }

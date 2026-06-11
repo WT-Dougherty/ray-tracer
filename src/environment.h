@@ -23,7 +23,7 @@ public:
 
         for (const Matter *object : objects)
         {
-            if (object->hit(r, rayTmin, rayTmax, tempRec))
+            if (object->hit(r, rayTmin, closest, tempRec))
             {
                 hitbool = true;
                 closest = tempRec.t;
