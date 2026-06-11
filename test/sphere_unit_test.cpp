@@ -61,7 +61,7 @@ BOOST_AUTO_TEST_CASE(SphereHitRecordTest)
     BOOST_CHECK_CLOSE(rec.t, 4.0, 0.001);
     BOOST_CHECK_CLOSE(rec.hitPoint.z(), -4.0, 0.001);
     BOOST_CHECK_CLOSE(rec.normal.z(), 1.0, 0.001);
-    BOOST_CHECK_EQUAL(rec.mat, mat);
+    BOOST_CHECK_EQUAL(rec.mat, mat.get());
 }
 
 BOOST_AUTO_TEST_CASE(SphereHitRangeRejectTest)

@@ -75,9 +75,6 @@ void Camera ::render(const Environment &envmt)
 {
     initialize();
 
-    std::ios::sync_with_stdio(false);
-    std::cout.tie(nullptr);
-
     auto startTime = std::chrono::high_resolution_clock::now();
 
     std::cout << "P3\n"
