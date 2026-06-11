@@ -17,4 +17,4 @@ public:
     constexpr static const int MAX_RECURSION_DEPTH = 50;
 };
 
-#endif // CONSTANTS_H
+#endif /* CONSTANTS_H */

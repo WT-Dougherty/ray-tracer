@@ -1,6 +1,10 @@
 #include "camera.h"
 #include "material.h"
 
+#include <chrono>
+#include <thread>
+#include <vector>
+#include <atomic>
 #include "util/constants.h"
 
 void Camera ::initialize()
@@ -64,22 +68,66 @@ void Camera ::render(const Environment &envmt)
 {
     initialize();
 
+    auto startTime = std::chrono::high_resolution_clock::now();
+
     std::cout << "P3\n"
               << Constants::IMAGE_WIDTH << ' ' << imageHeight << "\n255\n";
 
-    for (int j = 0; j < imageHeight; j++)
+    int height = int(imageHeight);
+    int width = Constants::IMAGE_WIDTH;
+    unsigned int totalCores = std::thread::hardware_concurrency();
+    unsigned int workerCount = (totalCores > 2) ? (totalCores - 2) : 1;
+    const int batchSize = 32;
+
+    std::clog << "Rendering with " << workerCount << " thread" << (workerCount == 1 ? "" : "s") << "...\n";
+
+    std::vector<Color> image(height * width);
+    std::atomic<int> nextRow{0};
+
+    auto worker = [&](int)
     {
-        std::clog << "\rScanlines remaining: " << (imageHeight - j) << ' ' << std::flush;
-        for (int i = 0; i < Constants::IMAGE_WIDTH; i++)
+        while (true)
         {
-            Color pixelColor = Color(0, 0, 0);
-            for (int _ = 0; _ < Constants::SAMPLES_PER_PIXEL; _++)
+            int rowStart = nextRow.fetch_add(batchSize, std::memory_order_relaxed);
+            if (rowStart >= height)
+                break;
+
+            int rowEnd = std::min(height, rowStart + batchSize);
+            for (int j = rowStart; j < rowEnd; j++)
             {
-                Ray r = getRay(i, j);
-                pixelColor += rayColor(r, envmt, 0);
+                for (int i = 0; i < width; i++)
+                {
+                    Color pixelColor(0, 0, 0);
+                    for (int s = 0; s < Constants::SAMPLES_PER_PIXEL; s++)
+                    {
+                        Ray r = getRay(i, j);
+                        pixelColor += rayColor(r, envmt, 0);
+                    }
+                    image[j * width + i] = pixelColor / Constants::SAMPLES_PER_PIXEL;
+                }
             }
-            writeColor(std::cout, pixelColor / Constants::SAMPLES_PER_PIXEL);
+        }
+    };
+
+    std::vector<std::thread> workers;
+    workers.reserve(workerCount);
+    for (unsigned int t = 0; t < workerCount; t++)
+        workers.emplace_back(worker, t);
+
+    for (auto &thread : workers)
+        thread.join();
+
+    for (int j = 0; j < height; j++)
+    {
+        for (int i = 0; i < width; i++)
+        {
+            writeColor(std::cout, image[j * width + i]);
         }
     }
+
+    auto endTime = std::chrono::high_resolution_clock::now();
+    auto renderDuration = std::chrono::duration_cast<std::chrono::duration<double>>(endTime - startTime);
+
     std::clog << "\rDone.                 \n";
+    std::clog << "Render time: " << renderDuration.count() << " seconds\n";
 }
