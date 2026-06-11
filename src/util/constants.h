@@ -15,6 +15,7 @@ public:
 
     // ------------------- operational parameters ----------------
     constexpr static const int MAX_RECURSION_DEPTH = 50;
+    constexpr static const int THREAD_BATCH_SIZE = 32;
 };
 
 #endif /* CONSTANTS_H */

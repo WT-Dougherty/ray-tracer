@@ -77,7 +77,6 @@ void Camera ::render(const Environment &envmt)
     int width = Constants::IMAGE_WIDTH;
     unsigned int totalCores = std::thread::hardware_concurrency();
     unsigned int workerCount = (totalCores > 2) ? (totalCores - 2) : 1;
-    const int batchSize = 32;
 
     std::clog << "Rendering with " << workerCount << " thread" << (workerCount == 1 ? "" : "s") << "...\n";
 
@@ -88,11 +87,11 @@ void Camera ::render(const Environment &envmt)
     {
         while (true)
         {
-            int rowStart = nextRow.fetch_add(batchSize, std::memory_order_relaxed);
+            int rowStart = nextRow.fetch_add(Constants::THREAD_BATCH_SIZE, std::memory_order_relaxed);
             if (rowStart >= height)
                 break;
 
-            int rowEnd = std::min(height, rowStart + batchSize);
+            int rowEnd = std::min(height, rowStart + Constants::THREAD_BATCH_SIZE);
             for (int j = rowStart; j < rowEnd; j++)
             {
                 for (int i = 0; i < width; i++)
